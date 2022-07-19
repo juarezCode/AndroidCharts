@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="2"
         tools:listitem="@layout/item_answer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,12 +28,19 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
 
         with(holder.binding) {
             txtQuestion.text = answer.question
-            txtTotalAnswers.text = answer.totalQuestions
+            txtTotalAnswers.text = "${answer.totalAnswers} respuestas"
         }
 
         if (answer.type == 1) {
-
+            val footerAdapter = FooterAdapter()
             with(holder) {
+                binding.chartFooterRecycler.apply {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    adapter = footerAdapter
+                }
+
+                binding.itemBarChart.isVisible = false
                 binding.itemPieChart.apply {
                     this.isVisible = true
                     this.setTouchEnabled(false)
@@ -45,15 +52,18 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                     this.legend.isEnabled = false
                 }
 
-                val entries = mutableListOf<PieEntry>()
-
-                answer.answers.map {
-                    entries.add(PieEntry(it.total.toFloat()))
+                val entries = answer.answers.map { answer ->
+                    PieEntry(answer.total.toFloat())
                 }
+
+                val footerList = answer.answers.mapIndexed { index, ans ->
+                    FooterChart(index, ans.total, ans.answer)
+                }
+                footerAdapter.submitList(footerList)
 
                 val pieDataSet = PieDataSet(entries, "PieChart").apply {
                     this.sliceSpace = 0f
-                    this.selectionShift = 20f
+                    this.selectionShift = 30f
                     this.colors = Utils.getColors(binding.root.context)
                     this.valueLinePart1OffsetPercentage = 100f
                     this.valueLinePart1Length = 0.7f
@@ -75,7 +85,6 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                 binding.itemPieChart.highlightValues(null)
                 binding.itemPieChart.invalidate()
             }
-            return
         }
 
         if (answer.type == 2) {
@@ -86,7 +95,7 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     adapter = footerAdapter
                 }
-
+                binding.itemPieChart.isVisible = false
                 binding.itemBarChart.apply {
                     this.isVisible = true
                     this.setTouchEnabled(false)
@@ -98,7 +107,7 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                         this.isEnabled = true
                         this.textColor = Color.GRAY
                         this.textSize = 12f
-                        this.labelCount = answer.answers.size
+                        this.labelCount = 5
                         this.axisMinimum = 0f
                     }
                     this.axisLeft.setDrawAxisLine(false)
@@ -113,9 +122,9 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                         this.labelCount = answer.answers.size
                         this.valueFormatter = object : ValueFormatter() {
                             override fun getFormattedValue(value: Float): String {
-                                val answerFounded = answer.answers.find { it.id.toFloat() == value }
-                                if (answerFounded == null) return "0%"
-                                return "${answerFounded.percent}%"
+                                val answerFound = answer.answers.find { it.id.toFloat() == value }
+                                if (answerFound == null) return "0%"
+                                return "${answerFound.percent}%"
                             }
                         }
                     }
@@ -123,11 +132,13 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
 
 
                 val entries = answer.answers.map { answer ->
-                    BarEntry(answer.id.toFloat(), answer.option.toFloat())
+                    BarEntry(answer.id.toFloat(), answer.total.toFloat())
                 }
                 val footerList = answer.answers.mapIndexed { index, ans ->
-                    FooterChart(index, ans.total, ans.question)
+                    FooterChart(index, ans.total, ans.answer)
                 }
+
+                footerAdapter.submitList(footerList)
 
                 val dataset = BarDataSet(entries, "BarChart").apply {
                     this.colors = Utils.getColors(binding.root.context)
@@ -141,8 +152,6 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                 binding.itemBarChart.data = data
                 binding.itemBarChart.setFitBars(true)
                 binding.itemBarChart.invalidate()
-
-                footerAdapter.submitList(footerList)
             }
         }
     }
