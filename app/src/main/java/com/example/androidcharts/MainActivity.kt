@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
                     "1 ¿Que tantos dias a la semana te gusta ir a la oficina?",
                     "1562 respuestas",
                     listOf(
-                        Answer(1, 2, 26, 194),
-                        Answer(2, 4, 49, 402),
-                        Answer(3, 5, 70, 1009),
-                        Answer(4, 4, 35, 341),
-                        Answer(5, 1, 17, 50)
+                        Answer(1, "si", 2, 26, 194),
+                        Answer(2, "sii", 4, 49, 402),
+                        Answer(3, "siii", 5, 70, 1009),
+                        Answer(4, "siiii", 4, 35, 341),
+                        Answer(5, "siiiii", 1, 17, 50)
                     )
                 ), AnswerWrapper(
                     1,
@@ -42,32 +42,32 @@ class MainActivity : AppCompatActivity() {
                     "1 ¿Que tantos dias a la semana te gusta ir a la oficina?",
                     "1562 respuestas",
                     listOf(
-                        Answer(1, 2, 26, 194),
-                        Answer(2, 4, 49, 402),
-                        Answer(3, 5, 70, 1009),
-                        Answer(4, 4, 35, 341),
-                        Answer(5, 1, 17, 50)
+                        Answer(1, "1 dia", 2, 26, 194),
+                        Answer(2, "2 dias", 4, 49, 402),
+                        Answer(3, "3 dias", 5, 70, 1009),
+                        Answer(4, "4 dias", 4, 35, 341),
+                        Answer(5, "5 dias", 1, 17, 50)
                     )
                 ),
                 AnswerWrapper(
                     1, 2, "1 question", "20 answers", listOf(
-                        Answer(1, 1, 100, 5),
-                        Answer(2, 2, 100, 5),
-                        Answer(3, 3, 100, 10),
-                        Answer(4, 4, 100, 10),
-                        Answer(5, 5, 100, 10),
-                        Answer(6, 5, 100, 10),
-                        Answer(7, 5, 100, 10),
-                        Answer(8, 5, 100, 10),
-                        Answer(9, 5, 100, 10),
-                        Answer(10, 5, 100, 10)
+                        Answer(1, "some question", 1, 100, 5),
+                        Answer(2, "some question", 2, 100, 5),
+                        Answer(3, "some question", 3, 100, 10),
+                        Answer(4, "some question", 4, 100, 10),
+                        Answer(5, "some question", 5, 100, 10),
+                        Answer(6, "some question", 5, 100, 10),
+                        Answer(7, "some question", 5, 100, 10),
+                        Answer(8, "some question", 5, 100, 10),
+                        Answer(9, "some question", 5, 100, 10),
+                        Answer(10, "some question", 5, 100, 10)
                     )
                 ),
                 AnswerWrapper(
                     1, 2, "1 question", "20 answers", listOf(
-                        Answer(1, 1, 5, 5),
-                        Answer(2, 2, 5, 5),
-                        Answer(3, 3, 10, 5)
+                        Answer(1, "some question", 1, 5, 5),
+                        Answer(2, "some question", 2, 5, 5),
+                        Answer(3, "some question", 3, 10, 5)
                     )
                 )
             )

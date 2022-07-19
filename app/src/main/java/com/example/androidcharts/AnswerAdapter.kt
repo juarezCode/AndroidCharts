@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidcharts.databinding.ItemAnswerBinding
@@ -78,7 +79,14 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
         }
 
         if (answer.type == 2) {
+            val footerAdapter = FooterAdapter()
             with(holder) {
+                binding.chartFooterRecycler.apply {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    adapter = footerAdapter
+                }
+
                 binding.itemBarChart.apply {
                     this.isVisible = true
                     this.setTouchEnabled(false)
@@ -113,10 +121,12 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                     }
                 }
 
-                val entries = mutableListOf<BarEntry>()
 
-                answer.answers.mapIndexed { index, answer ->
-                    entries.add(BarEntry(answer.id.toFloat(), answer.option.toFloat()))
+                val entries = answer.answers.map { answer ->
+                    BarEntry(answer.id.toFloat(), answer.option.toFloat())
+                }
+                val footerList = answer.answers.mapIndexed { index, ans ->
+                    FooterChart(index, ans.total, ans.question)
                 }
 
                 val dataset = BarDataSet(entries, "BarChart").apply {
@@ -131,6 +141,8 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                 binding.itemBarChart.data = data
                 binding.itemBarChart.setFitBars(true)
                 binding.itemBarChart.invalidate()
+
+                footerAdapter.submitList(footerList)
             }
         }
     }

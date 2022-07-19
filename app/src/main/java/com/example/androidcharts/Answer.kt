@@ -10,6 +10,7 @@ data class AnswerWrapper(
 
 data class Answer(
     val id: Int,
+    val question: String,
     val option: Int,
     val percent: Int,
     val total: Int
