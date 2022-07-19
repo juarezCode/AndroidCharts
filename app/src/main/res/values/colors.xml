@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="UDNZeus">#FFFED430</color>
+    <color name="UDNItalika">#FF00194A</color>
+    <color name="UDNNeto">#FFE24E00</color>
+    <color name="UDNDial">#FF009AA7</color>
+    <color name="UDNBancoAzteca">#FF056341</color>
+    <color name="UDNRedUnica">#FFE71618</color>
+    <color name="UDNTVAzteca">#FF773DBD</color>
+    <color name="UDNBaz">#FF37C800</color>
+    <color name="UDNHero">#FFE20000</color>
+    <color name="UDNUnknown">#FFE16A48</color>
+    <color name="UDNTotalPlay">#FF4DC2E4</color>
+    <color name="UDNFA">#FF0DA3E0</color>
 </resources>
