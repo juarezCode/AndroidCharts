@@ -2,7 +2,7 @@ package com.example.androidcharts
 
 data class AnswerWrapper(
     val id: Int,
-    val type: Int,
+    val type: AnswerType,
     val question: String,
     val totalAnswers: Int,
     val answers: List<Answer>

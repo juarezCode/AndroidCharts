@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidcharts.databinding.ItemChartFooterBinding
 
-class FooterAdapter : ListAdapter<FooterChart, FooterAdapter.ViewHolder>(DiffCallback) {
+class FooterChartAdapter : ListAdapter<FooterChart, FooterChartAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(val binding: ItemChartFooterBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -23,14 +23,17 @@ class FooterAdapter : ListAdapter<FooterChart, FooterAdapter.ViewHolder>(DiffCal
         with(holder) {
             binding.txtFooterTotal.text = footer.total.toString()
             binding.txtFooterQuestion.text = footer.question
-            val colorsSize = Utils.getColors(binding.root.context).size
-            if (footer.id >= colorsSize) {
-                binding.txtFooterIndicator.setBackgroundColor(
-                    Utils.getColors(binding.root.context)[1]
-                )
-            } else {
-                binding.txtFooterIndicator.setBackgroundColor(Utils.getColors(binding.root.context)[footer.id])
-            }
+            setIndicatorBackgroundColor(binding, footer.id)
+        }
+    }
+
+    private fun setIndicatorBackgroundColor(binding: ItemChartFooterBinding, footerId: Int) {
+        val colorsSize = Utils.getColors(binding.root.context).size
+        if ((footerId + 1) > colorsSize) {
+            val index = (footerId) - colorsSize
+            binding.txtFooterIndicator.setBackgroundColor(Utils.getColors(binding.root.context)[index])
+        } else {
+            binding.txtFooterIndicator.setBackgroundColor(Utils.getColors(binding.root.context)[footerId])
         }
     }
 

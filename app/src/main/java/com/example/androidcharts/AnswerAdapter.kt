@@ -28,11 +28,11 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
 
         with(holder.binding) {
             txtQuestion.text = answer.question
-            txtTotalAnswers.text = "${answer.totalAnswers} respuestas"
+            txtTotalAnswers.text = "${String.format("%,d", answer.totalAnswers)} respuestas"
         }
 
-        if (answer.type == 1) {
-            val footerAdapter = FooterAdapter()
+        if (answer.type == AnswerType.PieChart || answer.type == AnswerType.BarChart) {
+            val footerAdapter = FooterChartAdapter()
             with(holder) {
                 binding.chartFooterRecycler.apply {
                     layoutManager =
@@ -40,119 +40,129 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                     adapter = footerAdapter
                 }
 
-                binding.itemBarChart.isVisible = false
-                binding.itemPieChart.apply {
-                    this.isVisible = true
-                    this.setTouchEnabled(false)
-                    this.setUsePercentValues(true)
-                    this.description = null
-                    this.setExtraOffsets(5f, 10f, 5f, 5f)
-                    this.dragDecelerationFrictionCoef = 0.95f
-                    this.isDrawHoleEnabled = false
-                    this.legend.isEnabled = false
-                }
-
-                val entries = answer.answers.map { answer ->
-                    PieEntry(answer.total.toFloat())
-                }
-
-                val footerList = answer.answers.mapIndexed { index, ans ->
+                answer.answers.mapIndexed { index, ans ->
                     FooterChart(index, ans.total, ans.answer)
-                }
-                footerAdapter.submitList(footerList)
-
-                val pieDataSet = PieDataSet(entries, "PieChart").apply {
-                    this.sliceSpace = 0f
-                    this.selectionShift = 30f
-                    this.colors = Utils.getColors(binding.root.context)
-                    this.valueLinePart1OffsetPercentage = 100f
-                    this.valueLinePart1Length = 0.7f
-                    this.valueLinePart2Length = 0.3f
-                    this.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+                }.also { footerList ->
+                    footerAdapter.submitList(footerList)
                 }
 
-                val pieData = PieData(pieDataSet).apply {
-                    this.setValueTextSize(14f)
-                    this.setValueTextColor(Color.GRAY)
-                    this.setValueFormatter(object : ValueFormatter() {
-                        override fun getFormattedValue(value: Float): String {
-                            return "${value.toInt()}%"
-                        }
-                    })
-                }
 
-                binding.itemPieChart.data = pieData
-                binding.itemPieChart.highlightValues(null)
-                binding.itemPieChart.invalidate()
+                if (answer.type == AnswerType.PieChart) {
+                    onPieAnswerType(binding, answer.answers)
+                } else {
+                    onBarAnswerType(binding, answer.answers)
+                }
             }
         }
 
-        if (answer.type == 2) {
-            val footerAdapter = FooterAdapter()
-            with(holder) {
-                binding.chartFooterRecycler.apply {
-                    layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    adapter = footerAdapter
-                }
-                binding.itemPieChart.isVisible = false
-                binding.itemBarChart.apply {
-                    this.isVisible = true
-                    this.setTouchEnabled(false)
-                    this.setPinchZoom(false)
-                    this.setDrawBarShadow(false)
-                    this.setDrawGridBackground(false)
-                    this.description = null
-                    this.axisLeft.apply {
-                        this.isEnabled = true
-                        this.textColor = Color.GRAY
-                        this.textSize = 12f
-                        this.labelCount = 5
-                        this.axisMinimum = 0f
-                    }
-                    this.axisLeft.setDrawAxisLine(false)
-                    this.axisRight.isEnabled = false
-                    this.legend.isEnabled = false
-                    this.xAxis.apply {
-                        this.position = XAxis.XAxisPosition.BOTTOM
-                        this.setDrawAxisLine(false)
-                        this.setDrawGridLines(false)
-                        this.textSize = 12f
-                        this.textColor = Color.GRAY
-                        this.labelCount = answer.answers.size
-                        this.valueFormatter = object : ValueFormatter() {
-                            override fun getFormattedValue(value: Float): String {
-                                val answerFound = answer.answers.find { it.id.toFloat() == value }
-                                if (answerFound == null) return "0%"
-                                return "${answerFound.percent}%"
-                            }
-                        }
-                    }
-                }
+        if (answer.type == AnswerType.Words) {
 
+        }
 
-                val entries = answer.answers.map { answer ->
-                    BarEntry(answer.id.toFloat(), answer.total.toFloat())
+        if (answer.type == AnswerType.Photos) {
+
+        }
+
+        if (answer.type == AnswerType.Videos) {
+
+        }
+    }
+
+    private fun onPieAnswerType(binding: ItemAnswerBinding, answers: List<Answer>) {
+
+        binding.itemBarChart.isVisible = false
+        binding.itemPieChart.apply {
+            this.isVisible = true
+            this.setTouchEnabled(false)
+            this.setUsePercentValues(true)
+            this.description = null
+            this.setExtraOffsets(5f, 10f, 5f, 5f)
+            this.dragDecelerationFrictionCoef = 0.95f
+            this.isDrawHoleEnabled = false
+            this.legend.isEnabled = false
+        }
+
+        val entries = answers.map { answer -> PieEntry(answer.total.toFloat()) }
+
+        val pieDataSet = PieDataSet(entries, "PieChart").apply {
+            this.sliceSpace = 0f
+            this.selectionShift = 30f
+            this.colors = Utils.getColors(binding.root.context)
+            this.valueLinePart1OffsetPercentage = 100f
+            this.valueLinePart1Length = 0.7f
+            this.valueLinePart2Length = 0.3f
+            this.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+        }
+
+        val pieData = PieData(pieDataSet).apply {
+            this.setValueTextSize(14f)
+            this.setValueTextColor(Color.GRAY)
+            this.setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return "${value.toInt()}%"
                 }
-                val footerList = answer.answers.mapIndexed { index, ans ->
-                    FooterChart(index, ans.total, ans.answer)
-                }
+            })
+        }
 
-                footerAdapter.submitList(footerList)
+        binding.itemPieChart.apply {
+            this.data = pieData
+            this.invalidate()
+        }
+    }
 
-                val dataset = BarDataSet(entries, "BarChart").apply {
-                    this.colors = Utils.getColors(binding.root.context)
-                    this.setDrawValues(false)
-                }
+    private fun onBarAnswerType(binding: ItemAnswerBinding, answers: List<Answer>) {
 
-                val data = BarData(listOf<IBarDataSet>(dataset)).apply {
-                    this.barWidth = 0.5f
-                }
-
-                binding.itemBarChart.data = data
-                binding.itemBarChart.setFitBars(true)
-                binding.itemBarChart.invalidate()
+        binding.itemPieChart.isVisible = false
+        binding.itemBarChart.apply {
+            this.isVisible = true
+            this.setTouchEnabled(false)
+            this.setPinchZoom(false)
+            this.setDrawBarShadow(false)
+            this.setDrawGridBackground(false)
+            this.description = null
+            this.axisLeft.apply {
+                this.isEnabled = true
+                this.textColor = Color.GRAY
+                this.textSize = 12f
+                this.labelCount = 5
+                this.axisMinimum = 0f
             }
+            this.axisLeft.setDrawAxisLine(false)
+            this.axisRight.isEnabled = false
+            this.legend.isEnabled = false
+            this.xAxis.apply {
+                this.position = XAxis.XAxisPosition.BOTTOM
+                this.setDrawAxisLine(false)
+                this.setDrawGridLines(false)
+                this.textSize = 12f
+                this.textColor = Color.GRAY
+                this.labelCount = answers.size
+                this.valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        val answerFound = answers.find { it.id.toFloat() == value }
+                        if (answerFound == null) return "0%"
+                        return "${answerFound.percent}%"
+                    }
+                }
+            }
+        }
+
+        val entries =
+            answers.map { answer -> BarEntry(answer.id.toFloat(), answer.total.toFloat()) }
+
+        val dataset = BarDataSet(entries, "BarChart").apply {
+            this.colors = Utils.getColors(binding.root.context)
+            this.setDrawValues(false)
+        }
+
+        val data = BarData(listOf<IBarDataSet>(dataset)).apply {
+            this.barWidth = 0.5f
+        }
+
+        binding.itemBarChart.apply {
+            this.data = data
+            this.setFitBars(true)
+            this.invalidate()
         }
     }
 
@@ -163,5 +173,4 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
         override fun areContentsTheSame(oldItem: AnswerWrapper, newItem: AnswerWrapper) =
             oldItem == newItem
     }
-
 }

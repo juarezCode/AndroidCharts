@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             listOf(
                 AnswerWrapper(
                     1,
-                    1,
+                    AnswerType.PieChart,
                     "1.1 ¿Que gustan los gatos?",
                     200,
                     listOf(
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 ),
                 AnswerWrapper(
                     2,
-                    2,
+                    AnswerType.BarChart,
                     "1.2 ¿Que gustan los gatos?",
                     200,
                     listOf(
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 ),
                 AnswerWrapper(
                     3,
-                    1,
+                    AnswerType.PieChart,
                     "1 ¿Que tantos dias a la semana te gusta ir a la oficina?",
                     1562,
                     listOf(
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ), AnswerWrapper(
                     4,
-                    2,
+                    AnswerType.BarChart,
                     "1 ¿Que tantos dias a la semana te gusta ir a la oficina?",
                     1562,
                     listOf(
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 AnswerWrapper(
-                    5, 1, "3 ¿Que calificacion le das a tu lider?", 10000, listOf(
+                    5, AnswerType.PieChart, "3 ¿Que calificacion le das a tu lider?", 10000, listOf(
                         Answer(1, "1", 14, 1000),
                         Answer(2, "2", 10, 500),
                         Answer(3, "3", 7, 100),
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 AnswerWrapper(
-                    6, 2, "3 ¿Que calificacion le das a tu lider?", 10000, listOf(
+                    6, AnswerType.BarChart, "3 ¿Que calificacion le das a tu lider?", 10000, listOf(
                         Answer(1, "1", 14, 1000),
                         Answer(2, "2", 10, 500),
                         Answer(3, "3", 7, 100),
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 ),
                 AnswerWrapper(
                     id = 7,
-                    type = 1,
+                    type = AnswerType.PieChart,
                     question = "4 ¿como prefieres trabajar?",
                     totalAnswers = 100,
                     answers = listOf(
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 AnswerWrapper(
-                    8, 2, "4 ¿como prefieres trabajar?", 100, listOf(
+                    8, AnswerType.BarChart, "4 ¿como prefieres trabajar?", 100, listOf(
                         Answer(1, "oficina", 0, 0),
                         Answer(2, "hibrido", 5, 5),
                         Answer(3, "remoto", 75, 75)
