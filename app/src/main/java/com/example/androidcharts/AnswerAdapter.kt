@@ -14,7 +14,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
-class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffCallback) {
+class AnswerAdapter : ListAdapter<Question, AnswerAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(val binding: ItemAnswerBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -27,11 +27,11 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
         val answer = getItem(position)
 
         with(holder.binding) {
-            txtQuestion.text = answer.question
+            txtQuestion.text = answer.description
             txtTotalAnswers.text = "${String.format("%,d", answer.totalAnswers)} respuestas"
         }
 
-        if (answer.type == AnswerType.PieChart || answer.type == AnswerType.BarChart) {
+        if (answer.type == AnswerType.barChart || answer.type == AnswerType.pieChart) {
             val footerAdapter = FooterChartAdapter()
             with(holder) {
                 binding.chartFooterRecycler.apply {
@@ -41,13 +41,13 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                 }
 
                 answer.answers.mapIndexed { index, ans ->
-                    FooterChart(index, ans.total, ans.answer)
+                    FooterChart(index, ans.total, ans.description)
                 }.also { footerList ->
                     footerAdapter.submitList(footerList)
                 }
 
 
-                if (answer.type == AnswerType.PieChart) {
+                if (answer.type == AnswerType.pieChart) {
                     onPieAnswerType(binding, answer.answers)
                 } else {
                     onBarAnswerType(binding, answer.answers)
@@ -55,15 +55,7 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
             }
         }
 
-        if (answer.type == AnswerType.Words) {
-
-        }
-
-        if (answer.type == AnswerType.Photos) {
-
-        }
-
-        if (answer.type == AnswerType.Videos) {
+        if (answer.type == AnswerType.words) {
 
         }
     }
@@ -139,16 +131,16 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
                 this.labelCount = answers.size
                 this.valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
-                        val answerFound = answers.find { it.id.toFloat() == value }
-                        if (answerFound == null) return "0%"
+                        val answerFound = answers[value.toInt()]
                         return "${answerFound.percent}%"
                     }
                 }
             }
         }
 
-        val entries =
-            answers.map { answer -> BarEntry(answer.id.toFloat(), answer.total.toFloat()) }
+        val entries = answers.mapIndexed { index, answer ->
+            BarEntry(index.toFloat(), answer.total.toFloat())
+        }
 
         val dataset = BarDataSet(entries, "BarChart").apply {
             this.colors = Utils.getColors(binding.root.context)
@@ -166,11 +158,11 @@ class AnswerAdapter : ListAdapter<AnswerWrapper, AnswerAdapter.ViewHolder>(DiffC
         }
     }
 
-    object DiffCallback : DiffUtil.ItemCallback<AnswerWrapper>() {
-        override fun areItemsTheSame(oldItem: AnswerWrapper, newItem: AnswerWrapper) =
+    object DiffCallback : DiffUtil.ItemCallback<Question>() {
+        override fun areItemsTheSame(oldItem: Question, newItem: Question) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: AnswerWrapper, newItem: AnswerWrapper) =
+        override fun areContentsTheSame(oldItem: Question, newItem: Question) =
             oldItem == newItem
     }
 }

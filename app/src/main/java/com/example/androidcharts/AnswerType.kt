@@ -1,5 +1,7 @@
 package com.example.androidcharts
 
-enum class AnswerType {
-    BarChart, PieChart, Words, Photos, Videos
+object AnswerType {
+    const val barChart: Int = 19
+    const val pieChart: Int = 18
+    const val words: Int = 1000
 }
