@@ -24,14 +24,15 @@ class AnswerAdapter : ListAdapter<Question, AnswerAdapter.ViewHolder>(DiffCallba
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val answer = getItem(position)
+        val question = getItem(position)
 
         with(holder.binding) {
-            txtQuestion.text = answer.description
-            txtTotalAnswers.text = "${String.format("%,d", answer.totalAnswers)} respuestas"
+            txtQuestionDescription.text = question.description
+            txtQuestionTotalAnswers.text =
+                "${String.format("%,d", question.totalAnswers)} respuestas"
         }
 
-        if (answer.type == AnswerType.barChart || answer.type == AnswerType.pieChart) {
+        if (question.type == AnswerType.barChart || question.type == AnswerType.pieChart) {
             val footerAdapter = FooterChartAdapter()
             with(holder) {
                 binding.chartFooterRecycler.apply {
@@ -40,22 +41,21 @@ class AnswerAdapter : ListAdapter<Question, AnswerAdapter.ViewHolder>(DiffCallba
                     adapter = footerAdapter
                 }
 
-                answer.answers.mapIndexed { index, ans ->
+                question.answers.mapIndexed { index, ans ->
                     FooterChart(index, ans.total, ans.description)
                 }.also { footerList ->
                     footerAdapter.submitList(footerList)
                 }
 
-
-                if (answer.type == AnswerType.pieChart) {
-                    onPieAnswerType(binding, answer.answers)
+                if (question.type == AnswerType.pieChart) {
+                    onPieAnswerType(binding, question.answers)
                 } else {
-                    onBarAnswerType(binding, answer.answers)
+                    onBarAnswerType(binding, question.answers)
                 }
             }
         }
 
-        if (answer.type == AnswerType.words) {
+        if (question.type == AnswerType.words) {
 
         }
     }
@@ -131,8 +131,11 @@ class AnswerAdapter : ListAdapter<Question, AnswerAdapter.ViewHolder>(DiffCallba
                 this.labelCount = answers.size
                 this.valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
-                        val answerFound = answers[value.toInt()]
-                        return "${answerFound.percent}%"
+                        return try {
+                            "${answers[value.toInt()].percent}%"
+                        } catch (e: Exception) {
+                            "0%"
+                        }
                     }
                 }
             }

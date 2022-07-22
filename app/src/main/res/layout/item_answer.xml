@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtQuestion"
+        android:id="@+id/txtQuestionDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/txtTotalAnswers"
+        android:id="@+id/txtQuestionTotalAnswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -38,7 +38,7 @@
         android:text="totalAnswers"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtQuestion" />
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestionDescription" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/itemBarChart"
@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTotalAnswers" />
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestionTotalAnswers" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/itemPieChart"
@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTotalAnswers" />
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestionTotalAnswers" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chartFooterRecycler"
@@ -69,7 +69,7 @@
         android:layout_marginTop="316dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTotalAnswers"
+        app:layout_constraintTop_toBottomOf="@+id/txtQuestionTotalAnswers"
         tools:itemCount="2"
         tools:listitem="@layout/item_chart_footer" />
 

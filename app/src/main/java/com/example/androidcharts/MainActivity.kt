@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             answerAdapter.submitList(task.questions)
+//            binding.swipeContainer.isRefreshing = false
         }
+
+//        binding.swipeContainer.setOnRefreshListener {
+//            viewModel.refreshTaskAnswers()
+//        }
     }
 }
