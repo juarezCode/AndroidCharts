@@ -45,18 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtQuestionTotalAnswers" />
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/itemPieChart"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,10 +55,10 @@
         android:id="@+id/chartFooterRecycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtQuestionTotalAnswers"
+        app:layout_constraintTop_toBottomOf="@+id/itemBarChart"
         tools:itemCount="2"
         tools:listitem="@layout/item_chart_footer" />
 

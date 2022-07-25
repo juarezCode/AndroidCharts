@@ -93,7 +93,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_marginTop="8dp"
         tools:itemCount="2"
-        tools:listitem="@layout/item_answer" />
+        tools:listitem="@layout/item_pie_answer" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

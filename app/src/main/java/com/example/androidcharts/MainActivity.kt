@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
-    private val answerAdapter = AnswerAdapter()
+    private val answerAdapter = QuestionsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 txtTaskDescription.text = task.description
             }
 
-            answerAdapter.submitList(task.questions)
+            answerAdapter.items = task.questions
 //            binding.swipeContainer.isRefreshing = false
         }
 
